@@ -1,4 +1,4 @@
-package org.ayaz.chatter.data.entities.user
+package org.ayaz.bookstore.data.entities.user
 
 import org.bson.codecs.pojo.annotations.BsonId
 import org.bson.codecs.pojo.annotations.BsonProperty

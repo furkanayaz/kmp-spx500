@@ -1,4 +1,4 @@
-package org.ayaz.chatter
+package org.ayaz.bookstore
 
 class Greeting {
     private val platform = getPlatform()

@@ -1,7 +1,7 @@
-package org.ayaz.chatter.domain.use_cases.auth
+package org.ayaz.bookstore.domain.use_cases.auth
 
-import org.ayaz.chatter.data.dto_s.auth.LoginReqDTO
-import org.ayaz.chatter.data.repositories.auth.LoginRepo
+import org.ayaz.bookstore.data.dto_s.auth.LoginReqDTO
+import org.ayaz.bookstore.data.repositories.auth.LoginRepo
 import org.koin.core.annotation.Single
 
 @Single

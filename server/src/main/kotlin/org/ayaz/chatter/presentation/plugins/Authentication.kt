@@ -1,4 +1,4 @@
-package org.ayaz.chatter.presentation.plugins
+package org.ayaz.bookstore.presentation.plugins
 
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
@@ -6,9 +6,9 @@ import io.ktor.server.application.install
 import io.ktor.server.auth.Authentication
 import io.ktor.server.auth.jwt.jwt
 import io.ktor.server.response.respond
-import org.ayaz.chatter.data.util.Response
-import org.ayaz.chatter.data.util.jwt.JWTUtil
-import org.ayaz.chatter.presentation.util.CallUtil.getJWTValues
+import org.ayaz.bookstore.data.util.Response
+import org.ayaz.bookstore.data.util.jwt.JWTUtil
+import org.ayaz.bookstore.presentation.util.CallUtil.getJWTValues
 import org.koin.ktor.ext.inject
 
 fun Application.installAuthentication() {

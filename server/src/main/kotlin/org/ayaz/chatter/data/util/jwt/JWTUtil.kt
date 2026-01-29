@@ -1,4 +1,4 @@
-package org.ayaz.chatter.data.util.jwt
+package org.ayaz.bookstore.data.util.jwt
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.JWTVerifier

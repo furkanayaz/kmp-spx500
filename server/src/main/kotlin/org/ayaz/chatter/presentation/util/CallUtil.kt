@@ -1,4 +1,4 @@
-package org.ayaz.chatter.presentation.util
+package org.ayaz.bookstore.presentation.util
 
 import io.ktor.http.content.PartData
 import io.ktor.server.application.ApplicationEnvironment
@@ -7,8 +7,8 @@ import io.ktor.server.request.receiveMultipart
 import io.ktor.server.request.receiveNullable
 import io.ktor.server.routing.RoutingCall
 import io.ktor.utils.io.jvm.javaio.toInputStream
-import org.ayaz.chatter.data.util.jwt.JWTValues
-import org.ayaz.chatter.presentation.util.validations.Validator
+import org.ayaz.bookstore.data.util.jwt.JWTValues
+import org.ayaz.bookstore.presentation.util.validations.Validator
 import org.koin.ktor.ext.inject
 import java.io.File
 

@@ -1,5 +1,5 @@
 @file:Suppress("UnstableApiUsage")
-rootProject.name = "Chatter"
+rootProject.name = "kmp-bookstore"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {

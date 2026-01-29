@@ -1,4 +1,4 @@
-package org.ayaz.chatter
+package org.ayaz.bookstore
 
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.window.ComposeViewport

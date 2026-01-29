@@ -1,4 +1,4 @@
-package org.ayaz.chatter.presentation.routes.profile
+package org.ayaz.bookstore.presentation.routes.profile
 
 object ProfileEndpoints {
     private const val BASE = "user"

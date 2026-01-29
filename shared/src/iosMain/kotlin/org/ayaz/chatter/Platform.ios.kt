@@ -1,4 +1,4 @@
-package org.ayaz.chatter
+package org.ayaz.bookstore
 
 import platform.UIKit.UIDevice
 

@@ -1,8 +1,8 @@
-package org.ayaz.chatter.presentation.plugins
+package org.ayaz.bookstore.presentation.plugins
 
 import io.ktor.server.application.Application
 import io.ktor.server.routing.routing
-import org.ayaz.chatter.presentation.routes.auth.authRoutes
+import org.ayaz.bookstore.presentation.routes.auth.authRoutes
 
 fun Application.installRouting() {
     routing {

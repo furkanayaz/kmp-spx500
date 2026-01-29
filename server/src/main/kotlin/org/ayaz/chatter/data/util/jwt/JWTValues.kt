@@ -1,4 +1,4 @@
-package org.ayaz.chatter.data.util.jwt
+package org.ayaz.bookstore.data.util.jwt
 
 data class JWTValues(
     val secretKey: String,

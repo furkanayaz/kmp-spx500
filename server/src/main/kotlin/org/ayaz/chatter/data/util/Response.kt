@@ -1,4 +1,4 @@
-package org.ayaz.chatter.data.util
+package org.ayaz.bookstore.data.util
 
 import kotlinx.serialization.Serializable
 

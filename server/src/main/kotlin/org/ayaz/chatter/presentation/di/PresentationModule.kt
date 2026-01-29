@@ -1,4 +1,4 @@
-package org.ayaz.chatter.presentation.di
+package org.ayaz.bookstore.presentation.di
 
 import org.koin.core.annotation.ComponentScan
 import org.koin.core.annotation.Module

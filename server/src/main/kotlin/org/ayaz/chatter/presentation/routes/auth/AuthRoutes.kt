@@ -1,19 +1,19 @@
-package org.ayaz.chatter.presentation.routes.auth
+package org.ayaz.bookstore.presentation.routes.auth
 
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.post
-import org.ayaz.chatter.data.dto_s.auth.LoginReqDTO
-import org.ayaz.chatter.data.dto_s.auth.LoginResDTO
-import org.ayaz.chatter.data.dto_s.auth.SignUpReqDTO
-import org.ayaz.chatter.data.util.jwt.JWTUtil
-import org.ayaz.chatter.data.util.Response
-import org.ayaz.chatter.domain.use_cases.auth.LoginUseCase
-import org.ayaz.chatter.domain.use_cases.auth.SignUpUseCase
-import org.ayaz.chatter.domain.util.Resource
-import org.ayaz.chatter.presentation.util.CallUtil.getJWTValues
-import org.ayaz.chatter.presentation.util.CallUtil.require
+import org.ayaz.bookstore.data.dto_s.auth.LoginReqDTO
+import org.ayaz.bookstore.data.dto_s.auth.LoginResDTO
+import org.ayaz.bookstore.data.dto_s.auth.SignUpReqDTO
+import org.ayaz.bookstore.data.util.jwt.JWTUtil
+import org.ayaz.bookstore.data.util.Response
+import org.ayaz.bookstore.domain.use_cases.auth.LoginUseCase
+import org.ayaz.bookstore.domain.use_cases.auth.SignUpUseCase
+import org.ayaz.bookstore.domain.util.Resource
+import org.ayaz.bookstore.presentation.util.CallUtil.getJWTValues
+import org.ayaz.bookstore.presentation.util.CallUtil.require
 import org.koin.ktor.ext.inject
 
 fun Route.authRoutes() {

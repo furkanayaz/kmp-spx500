@@ -1,4 +1,4 @@
-package org.ayaz.chatter.presentation.plugins
+package org.ayaz.bookstore.presentation.plugins
 
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.Application

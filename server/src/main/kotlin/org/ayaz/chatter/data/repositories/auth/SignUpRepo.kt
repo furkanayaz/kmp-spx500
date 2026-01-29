@@ -1,11 +1,11 @@
-package org.ayaz.chatter.data.repositories.auth
+package org.ayaz.bookstore.data.repositories.auth
 
 import com.mongodb.MongoWriteException
 import com.mongodb.client.MongoCollection
-import org.ayaz.chatter.data.entities.user.UserEntity
-import org.ayaz.chatter.data.dto_s.auth.SignUpReqDTO
-import org.ayaz.chatter.domain.util.encryption.PasswordEncryption
-import org.ayaz.chatter.domain.util.Resource
+import org.ayaz.bookstore.data.entities.user.UserEntity
+import org.ayaz.bookstore.data.dto_s.auth.SignUpReqDTO
+import org.ayaz.bookstore.domain.util.encryption.PasswordEncryption
+import org.ayaz.bookstore.domain.util.Resource
 import org.koin.core.annotation.Single
 
 fun interface ISignUpRepo {

@@ -1,10 +1,10 @@
-package org.ayaz.chatter
+package org.ayaz.bookstore
 
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.server.testing.*
-import org.ayaz.chatter.presentation.module
+import org.ayaz.bookstore.presentation.module
 import kotlin.test.*
 
 class ApplicationTest {

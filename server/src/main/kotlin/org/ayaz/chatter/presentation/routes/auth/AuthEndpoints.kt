@@ -1,4 +1,4 @@
-package org.ayaz.chatter.presentation.routes.auth
+package org.ayaz.bookstore.presentation.routes.auth
 
 object AuthEndpoints {
     private const val BASE = "user"

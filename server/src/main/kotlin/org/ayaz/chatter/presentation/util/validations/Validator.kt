@@ -1,4 +1,4 @@
-package org.ayaz.chatter.presentation.util.validations
+package org.ayaz.bookstore.presentation.util.validations
 
 import jakarta.validation.ConstraintViolationException
 import jakarta.validation.Validation

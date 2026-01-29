@@ -1,9 +1,9 @@
-package org.ayaz.chatter.data.dto_s.auth
+package org.ayaz.bookstore.data.dto_s.auth
 
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.Size
 import kotlinx.serialization.Serializable
-import org.ayaz.chatter.presentation.util.validations.annotations.Password
+import org.ayaz.bookstore.presentation.util.validations.annotations.Password
 
 @Serializable
 data class LoginReqDTO(

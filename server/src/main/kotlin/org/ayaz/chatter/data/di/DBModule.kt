@@ -1,9 +1,9 @@
-package org.ayaz.chatter.data.di
+package org.ayaz.bookstore.data.di
 
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoDatabase
 import com.mongodb.client.model.IndexOptions
-import org.ayaz.chatter.data.entities.user.UserEntity
+import org.ayaz.bookstore.data.entities.user.UserEntity
 import org.koin.core.annotation.ComponentScan
 import org.koin.core.annotation.Module
 import org.koin.core.annotation.Single

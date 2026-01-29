@@ -50,7 +50,7 @@ kotlin {
 }
 
 android {
-    namespace = "org.ayaz.chatter.shared"
+    namespace = "org.ayaz.bookstore.shared"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

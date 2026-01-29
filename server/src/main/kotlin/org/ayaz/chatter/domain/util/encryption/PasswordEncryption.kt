@@ -1,4 +1,4 @@
-package org.ayaz.chatter.domain.util.encryption
+package org.ayaz.bookstore.domain.util.encryption
 
 import org.koin.core.annotation.Single
 import java.security.MessageDigest

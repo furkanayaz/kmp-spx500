@@ -1,4 +1,4 @@
-package org.ayaz.chatter.presentation.util.validations.annotations
+package org.ayaz.bookstore.presentation.util.validations.annotations
 
 import jakarta.validation.Constraint
 import jakarta.validation.ConstraintValidator

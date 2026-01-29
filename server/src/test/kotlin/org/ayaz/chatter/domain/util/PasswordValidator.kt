@@ -1,4 +1,4 @@
-package org.ayaz.chatter.domain.util
+package org.ayaz.bookstore.domain.util
 
 class PasswordValidator {
 

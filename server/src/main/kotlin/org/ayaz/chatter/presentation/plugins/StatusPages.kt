@@ -1,4 +1,4 @@
-package org.ayaz.chatter.presentation.plugins
+package org.ayaz.bookstore.presentation.plugins
 
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
@@ -8,8 +8,8 @@ import io.ktor.server.plugins.statuspages.StatusPages
 import io.ktor.server.response.respond
 import jakarta.validation.ConstraintViolationException
 import kotlinx.serialization.SerializationException
-import org.ayaz.chatter.data.util.Response
-import org.ayaz.chatter.presentation.util.MessengerExceptions
+import org.ayaz.bookstore.data.util.Response
+import org.ayaz.bookstore.presentation.util.MessengerExceptions
 
 fun Application.installStatusPages() {
     install(StatusPages) {

@@ -1,4 +1,4 @@
-package org.ayaz.chatter.domain.util.encryption
+package org.ayaz.bookstore.domain.util.encryption
 
 data class EncryptedPassword(
     val saltValue: String,
