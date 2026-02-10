@@ -24,9 +24,9 @@ object CallUtil {
     suspend inline fun <reified T> RoutingCall.require(): T {
         val validator: Validator by inject()
         val body = try {
-            this.receiveNullable<T>() ?: throw MessengerExceptions.MissingBodyException()
+            this.receiveNullable<T>() ?: throw SPXExceptions.MissingBodyException()
         } catch (_: BadRequestException) {
-            throw MessengerExceptions.MissingFieldException()
+            throw SPXExceptions.MissingFieldException()
         }
 
         validator.validate(body)
@@ -35,8 +35,8 @@ object CallUtil {
     }
 
     suspend fun RoutingCall.getSingleFile(): File {
-        val partData = this.receiveMultipart().readPart() ?: throw MessengerExceptions.MissingBodyException()
-        if (partData !is PartData.FileItem) throw MessengerExceptions.MissingBodyException()
+        val partData = this.receiveMultipart().readPart() ?: throw SPXExceptions.MissingBodyException()
+        if (partData !is PartData.FileItem) throw SPXExceptions.MissingBodyException()
 
         val fileBytes = partData.provider().toInputStream().readBytes()
         val fileName = partData.originalFileName ?: System.currentTimeMillis().toString()

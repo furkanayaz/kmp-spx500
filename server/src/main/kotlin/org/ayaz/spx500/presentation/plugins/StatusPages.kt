@@ -9,14 +9,14 @@ import io.ktor.server.response.respond
 import jakarta.validation.ConstraintViolationException
 import kotlinx.serialization.SerializationException
 import org.ayaz.spx500.data.util.Response
-import org.ayaz.spx500.presentation.util.MessengerExceptions
+import org.ayaz.spx500.presentation.util.SPXExceptions
 
 fun Application.installStatusPages() {
     install(StatusPages) {
         exception<Throwable> { call, throwable ->
             when (throwable) {
-                is MessengerExceptions.MissingBodyException -> call.respond(HttpStatusCode.BadRequest, Response.Error(errorCode = 400, errorMessages = listOf(throwable.message)))
-                is MessengerExceptions.MissingFieldException -> call.respond(HttpStatusCode.BadRequest, Response.Error(errorCode = 400, errorMessages = listOf(throwable.message)))
+                is SPXExceptions.MissingBodyException -> call.respond(HttpStatusCode.BadRequest, Response.Error(errorCode = 400, errorMessages = listOf(throwable.message)))
+                is SPXExceptions.MissingFieldException -> call.respond(HttpStatusCode.BadRequest, Response.Error(errorCode = 400, errorMessages = listOf(throwable.message)))
                 is SerializationException -> call.respond(HttpStatusCode.BadRequest, Response.Error(errorCode = 400, errorMessages = listOf("Occurred a serialization error.")))
                 is BadRequestException -> call.respond(HttpStatusCode.BadRequest, Response.Error(errorCode = 400, errorMessages = listOf(throwable.message ?: "Your entered field(s) cannot null or empty.")))
                 is ConstraintViolationException -> {

@@ -14,7 +14,7 @@ class JWTUtil {
     private companion object {
         const val EMAIL = "email"
         const val PASSWORD = "password"
-        const val EXPIRE_MILLIS = 1000 * 60 * 60 * 24
+        const val EXPIRE_MILLIS = 1000 * 60 * 60 * 3
     }
 
     @OptIn(ExperimentalTime::class)
@@ -36,10 +36,8 @@ class JWTUtil {
     fun validateToken(credential: JWTCredential): JWTPrincipal? {
         val isEmailNullOrEmpty = credential.payload.getClaim(EMAIL).asString().isNullOrEmpty()
         val isPasswordNullOrEmpty = credential.payload.getClaim(PASSWORD).asString().isNullOrEmpty()
-        return if (isEmailNullOrEmpty && isPasswordNullOrEmpty) {
-            null
-        } else {
-            JWTPrincipal(credential.payload)
-        }
+        if (isEmailNullOrEmpty && isPasswordNullOrEmpty) return null
+
+        return JWTPrincipal(credential.payload)
     }
 }
