@@ -5,16 +5,19 @@ import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
 import io.ktor.server.auth.jwt.JWTCredential
 import io.ktor.server.auth.jwt.JWTPrincipal
+import org.ayaz.spx500.data.repositories.user.UserValidationRepo
 import org.koin.core.annotation.Single
 import java.util.Date
 import kotlin.time.ExperimentalTime
 
 @Single
-class JWTUtil {
+class JWTUtil(
+    private val userValidationRepo: UserValidationRepo
+) {
     private companion object {
         const val EMAIL = "email"
         const val PASSWORD = "password"
-        const val EXPIRE_MILLIS = 1000 * 60 * 60 * 24
+        const val EXPIRE_MILLIS = 1000 * 60 * 60 * 3 // 3 hours
     }
 
     @OptIn(ExperimentalTime::class)
@@ -34,12 +37,10 @@ class JWTUtil {
             .build()
 
     fun validateToken(credential: JWTCredential): JWTPrincipal? {
-        val isEmailNullOrEmpty = credential.payload.getClaim(EMAIL).asString().isNullOrEmpty()
-        val isPasswordNullOrEmpty = credential.payload.getClaim(PASSWORD).asString().isNullOrEmpty()
-        return if (isEmailNullOrEmpty && isPasswordNullOrEmpty) {
-            null
-        } else {
-            JWTPrincipal(credential.payload)
-        }
+        val email = credential.payload.getClaim(EMAIL).asString()
+        val password = credential.payload.getClaim(PASSWORD).asString()
+        if (email.isNullOrEmpty() && password.isNullOrEmpty() && userValidationRepo.validate(email).not()) return null
+
+        return JWTPrincipal(credential.payload)
     }
 }

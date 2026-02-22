@@ -11,11 +11,11 @@ import org.litote.kmongo.KMongo
 import org.litote.kmongo.ascending
 
 @Module
-@ComponentScan("org.ayaz.messenger.data")
+@ComponentScan("org.ayaz.spx500.data")
 class DBModule {
     private companion object {
         const val CONN_URL = "mongodb://localhost:27017"
-        const val DB_NAME = "Messenger"
+        const val DB_NAME = "SPX500"
 
         const val USERS_COLLECTION = "SPX500"
     }

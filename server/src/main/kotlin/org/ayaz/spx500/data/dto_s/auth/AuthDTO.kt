@@ -15,6 +15,8 @@ data class LoginReqDTO(
 
 @Serializable
 data class LoginResDTO(
+    val name: String,
+    val lastName: String,
     val token: String
 )
 
