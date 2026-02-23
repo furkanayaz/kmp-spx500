@@ -13,7 +13,7 @@ import org.koin.ktor.ext.inject
 
 fun Application.installAuthentication() {
     val jwtUtil: JWTUtil by inject()
-    val jwtValues = environment.getJWTValues()
+    val jwtValues = environment.config.getJWTValues()
 
     install(Authentication) {
         jwt {

@@ -1,7 +1,7 @@
 package org.ayaz.spx500.presentation
 
 import io.ktor.server.application.*
-import io.ktor.server.netty.*
+import io.ktor.server.netty.EngineMain
 import org.ayaz.spx500.presentation.plugins.installAuthentication
 import org.ayaz.spx500.presentation.plugins.installContentNegotiation
 import org.ayaz.spx500.presentation.plugins.installCors

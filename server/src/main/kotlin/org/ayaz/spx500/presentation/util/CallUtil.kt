@@ -1,20 +1,28 @@
 package org.ayaz.spx500.presentation.util
 
-import io.ktor.server.application.ApplicationEnvironment
 import io.ktor.server.auth.jwt.JWTPrincipal
 import io.ktor.server.auth.principal
+import io.ktor.server.config.ApplicationConfig
 import io.ktor.server.plugins.BadRequestException
 import io.ktor.server.request.receiveNullable
 import io.ktor.server.routing.RoutingCall
 import org.ayaz.spx500.data.util.jwt.JWTValues
+import org.ayaz.spx500.data.util.server.ServerInfo
 import org.ayaz.spx500.presentation.util.validations.Validator
 import org.koin.ktor.ext.inject
 
 object CallUtil {
-    fun ApplicationEnvironment.getJWTValues(): JWTValues {
-        val secretKey = config.propertyOrNull(JWTValues.SECRET_KEY)?.getString().orEmpty()
-        val issuer = config.propertyOrNull(JWTValues.ISSUER)?.getString().orEmpty()
-        val audience = config.propertyOrNull(JWTValues.AUDIENCE)?.getString().orEmpty()
+    fun ApplicationConfig.getServerInfo(): ServerInfo {
+        val host = propertyOrNull(ServerInfo.HOST)?.getString() ?: ServerInfo.DEFAULT_HOST
+        val port = propertyOrNull(ServerInfo.PORT)?.getString()?.toIntOrNull() ?: ServerInfo.DEFAULT_PORT
+
+        return ServerInfo(host, port)
+    }
+
+    fun ApplicationConfig.getJWTValues(): JWTValues {
+        val secretKey = propertyOrNull(JWTValues.SECRET_KEY)?.getString().orEmpty()
+        val issuer = propertyOrNull(JWTValues.ISSUER)?.getString().orEmpty()
+        val audience = propertyOrNull(JWTValues.AUDIENCE)?.getString().orEmpty()
 
         return JWTValues(secretKey, issuer, audience)
     }

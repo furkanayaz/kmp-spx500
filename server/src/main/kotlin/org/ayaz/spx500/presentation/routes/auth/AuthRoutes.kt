@@ -2,11 +2,14 @@ package org.ayaz.spx500.presentation.routes.auth
 
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.auth.authenticate
+import io.ktor.server.auth.jwt.JWTPrincipal
+import io.ktor.server.auth.principal
 import io.ktor.server.response.respond
 import io.ktor.server.response.respondText
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
+import org.ayaz.spx500.data.cache.RedisHandler
 import org.ayaz.spx500.data.dto_s.auth.LoginReqDTO
 import org.ayaz.spx500.data.dto_s.auth.SignUpReqDTO
 import org.ayaz.spx500.data.util.Response
@@ -17,7 +20,9 @@ import org.ayaz.spx500.domain.use_cases.auth.LoginUseCase
 import org.ayaz.spx500.domain.use_cases.auth.SignUpUseCase
 import org.ayaz.spx500.domain.util.Resource
 import org.ayaz.spx500.presentation.util.CallUtil.getJWTValues
+import org.ayaz.spx500.presentation.util.CallUtil.getServerInfo
 import org.ayaz.spx500.presentation.util.CallUtil.require
+import org.koin.core.parameter.parametersOf
 import org.koin.ktor.ext.inject
 
 fun Route.authRoutes() {
@@ -30,7 +35,8 @@ fun Route.authRoutes() {
         when(val response = loginUseCase(reqModel)) {
             is Resource.Error<UserModel> -> call.respond(HttpStatusCode.BadRequest, Response.Error(errorMessages = response.messages))
             is Resource.Success<UserModel> -> {
-                val token = jwtUtil.createToken(call.application.environment.getJWTValues(), reqModel.email, reqModel.password)
+                val jwtValues = call.application.environment.config.getJWTValues()
+                val token = jwtUtil.createToken(jwtValues, reqModel.email, reqModel.password)
                 val responseItem = loginResMapper.toModel(response.item).copy(token = token)
                 call.respond(HttpStatusCode.OK, responseItem)
             }
@@ -49,7 +55,16 @@ fun Route.authRoutes() {
 
     authenticate {
         get(AuthEndpoints.LOG_OUT) {
-            call.respondText("asdasdasd")
+            val (host, port) = environment.config.getServerInfo()
+
+            val redisHandler: RedisHandler by inject { parametersOf(host, port) }
+
+            redisHandler.execute {
+                set("test", "furkan")
+                sadd("blacklist", "asdasdasdasd")
+            }
+
+            call.respondText("test asamasindayim.")
         }
     }
 }
