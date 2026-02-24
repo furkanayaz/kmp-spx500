@@ -1,11 +1,9 @@
 package org.ayaz.spx500.domain.util.encryption
 
-import org.koin.core.annotation.Single
 import java.security.MessageDigest
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-@Single
 class PasswordEncryption {
     private companion object {
         const val ALGORITHM = "SHA-256"

@@ -6,13 +6,11 @@ import org.ayaz.spx500.data.entities.user.UserEntity
 import org.ayaz.spx500.data.dto_s.auth.SignUpReqDTO
 import org.ayaz.spx500.domain.util.encryption.PasswordEncryption
 import org.ayaz.spx500.domain.util.Resource
-import org.koin.core.annotation.Single
 
 fun interface ISignUpRepo {
     fun signUp(req: SignUpReqDTO): Resource<Boolean>
 }
 
-@Single
 class SignUpRepo(
     private val collection: MongoCollection<UserEntity>,
     private val passwordEncryption: PasswordEncryption

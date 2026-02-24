@@ -6,11 +6,9 @@ import com.auth0.jwt.algorithms.Algorithm
 import io.ktor.server.auth.jwt.JWTCredential
 import io.ktor.server.auth.jwt.JWTPrincipal
 import org.ayaz.spx500.data.repositories.user.UserValidationRepo
-import org.koin.core.annotation.Single
 import java.util.Date
 import kotlin.time.ExperimentalTime
 
-@Single
 class JWTUtil(
     private val userValidationRepo: UserValidationRepo
 ) {
