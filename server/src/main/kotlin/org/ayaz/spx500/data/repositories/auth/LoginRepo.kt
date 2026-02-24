@@ -8,7 +8,6 @@ import org.ayaz.spx500.domain.mapper.user.UserMapper
 import org.ayaz.spx500.domain.models.user.UserModel
 import org.ayaz.spx500.domain.util.encryption.PasswordEncryption
 import org.ayaz.spx500.domain.util.Resource
-import org.koin.core.annotation.Single
 import org.litote.kmongo.eq
 import org.litote.kmongo.findOne
 
@@ -16,7 +15,6 @@ fun interface ILoginRepo {
     suspend fun login(req: LoginReqDTO): Resource<UserModel>
 }
 
-@Single
 class LoginRepo(
     private val collection: MongoCollection<UserEntity>,
     private val passwordEncryption: PasswordEncryption,

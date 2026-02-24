@@ -7,16 +7,16 @@ import io.ktor.server.plugins.BadRequestException
 import io.ktor.server.request.receiveNullable
 import io.ktor.server.routing.RoutingCall
 import org.ayaz.spx500.data.util.jwt.JWTValues
-import org.ayaz.spx500.data.util.server.ServerInfo
+import org.ayaz.spx500.data.util.server.SPXServer
 import org.ayaz.spx500.presentation.util.validations.Validator
 import org.koin.ktor.ext.inject
 
 object CallUtil {
-    fun ApplicationConfig.getServerInfo(): ServerInfo {
-        val host = propertyOrNull(ServerInfo.HOST)?.getString() ?: ServerInfo.DEFAULT_HOST
-        val port = propertyOrNull(ServerInfo.PORT)?.getString()?.toIntOrNull() ?: ServerInfo.DEFAULT_PORT
+    fun ApplicationConfig.getSPXServer(): SPXServer {
+        val host = propertyOrNull(SPXServer.HOST)?.getString() ?: SPXServer.DEFAULT_HOST
+        val port = propertyOrNull(SPXServer.PORT)?.getString()?.toIntOrNull() ?: SPXServer.DEFAULT_PORT
 
-        return ServerInfo(host, port)
+        return SPXServer(host, port)
     }
 
     fun ApplicationConfig.getJWTValues(): JWTValues {

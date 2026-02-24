@@ -1,6 +1,6 @@
 package org.ayaz.spx500.data.util.server
 
-data class ServerInfo(
+data class SPXServer(
     val host: String,
     val port: Int
 ) {

@@ -3,14 +3,12 @@ package org.ayaz.spx500.data.repositories.user
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.model.Filters
 import org.ayaz.spx500.data.entities.user.UserEntity
-import org.koin.core.annotation.Single
 import org.litote.kmongo.findOne
 
 fun interface IUserValidationRepo {
     fun validate(email: String): Boolean
 }
 
-@Single
 class UserValidationRepo(
     private val userCollection: MongoCollection<UserEntity>,
 ): IUserValidationRepo {
