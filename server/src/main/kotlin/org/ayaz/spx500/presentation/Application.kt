@@ -5,6 +5,7 @@ import io.ktor.server.netty.EngineMain
 import org.ayaz.spx500.presentation.plugins.installAuthentication
 import org.ayaz.spx500.presentation.plugins.installContentNegotiation
 import org.ayaz.spx500.presentation.plugins.installCors
+import org.ayaz.spx500.presentation.plugins.installI18n
 import org.ayaz.spx500.presentation.plugins.installKoin
 import org.ayaz.spx500.presentation.plugins.installLogging
 import org.ayaz.spx500.presentation.plugins.installRouting
@@ -22,4 +23,5 @@ fun Application.module() {
     installContentNegotiation()
     installAuthentication()
     installRouting()
+    installI18n()
 }

@@ -1,6 +1,8 @@
 package org.ayaz.spx500.data.util
 
 import io.ktor.http.HttpStatusCode
+import io.ktor.i18n.i18n
+import io.ktor.server.routing.RoutingContext
 import kotlinx.serialization.Serializable
 
 sealed interface Response<T: Any> {
@@ -16,7 +18,7 @@ sealed interface Response<T: Any> {
     data class Error<T: Any>(
         val isSuccess: Boolean = false,
         val code: Int = 400,
-        val errorMessages: List<String>,
+        private val errorMessages: List<String>,
         private val item: T? = null,
     ): Response<T> {
 
@@ -27,6 +29,8 @@ sealed interface Response<T: Any> {
                 else -> HttpStatusCode.InternalServerError
             }
         }
+
+        fun getErrorMessages(context: RoutingContext): List<String> = errorMessages.map { msgId -> context.i18n(msgId) }
 
     }
 }

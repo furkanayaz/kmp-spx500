@@ -20,15 +20,10 @@ class LoginUow(
     private val passwordEncryption: PasswordEncryption,
     private val userMapper: UserMapper
 ): ILoginUow {
-    private companion object {
-        const val EMAIL_ADDRESS_ERROR = "Your entered email address cannot found."
-        const val PASSWORD_ERROR = "Your entered password is wrong."
-    }
-
     override operator fun invoke(req: LoginReqDTO): Resource<UserModel> {
-        val userSaltValue = collection.findOne(Filters.eq(UserEntity::email.name, req.email))?.salt ?: return Resource.Error(listOf(EMAIL_ADDRESS_ERROR))
+        val userSaltValue = collection.findOne(Filters.eq(UserEntity::email.name, req.email))?.salt ?: return Resource.Error(listOf("enter.valid.email"))
         val encryptedPassword = passwordEncryption.encodeWithSalt(userSaltValue, req.password)
-        val canUserLogin = collection.find(Filters.and(UserEntity::email eq req.email, UserEntity::password eq encryptedPassword)).singleOrNull() ?: return Resource.Error(listOf(PASSWORD_ERROR))
+        val canUserLogin = collection.find(Filters.and(UserEntity::email eq req.email, UserEntity::password eq encryptedPassword)).singleOrNull() ?: return Resource.Error(listOf("enter.valid.password"))
 
         return Resource.Success(userMapper.toModel(canUserLogin))
     }

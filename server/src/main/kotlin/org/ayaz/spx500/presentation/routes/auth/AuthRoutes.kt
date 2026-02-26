@@ -25,7 +25,7 @@ fun Route.authRoutes() {
         val loginUseCase: LoginUseCase by inject()
 
         when(val response = loginUseCase(reqModel, jwtValues)) {
-            is Response.Error<LoginResDTO> -> call.respond(response.getHttpStatusCode(), response)
+            is Response.Error<LoginResDTO> -> call.respond(response.getHttpStatusCode(), response.copy(errorMessages = response.getErrorMessages(this)))
             is Response.Success<LoginResDTO> -> call.respond(HttpStatusCode.OK, response)
         }
     }
@@ -35,7 +35,7 @@ fun Route.authRoutes() {
         val signUpUseCase: SignUpUseCase by inject()
 
         when(val response = signUpUseCase(reqModel)) {
-            is Response.Error<Boolean> -> call.respond(response.getHttpStatusCode(), response)
+            is Response.Error<Boolean> -> call.respond(response.getHttpStatusCode(), response.copy(errorMessages = response.getErrorMessages(this)))
             is Response.Success<Boolean> -> call.respond(HttpStatusCode.OK, response)
         }
     }
@@ -45,7 +45,7 @@ fun Route.authRoutes() {
             val email = call.getClaim().email
             val logoutUseCase by inject<LogoutUseCase>()
             when(val response = logoutUseCase(email)) {
-                is Response.Error<Boolean> -> call.respond(response.getHttpStatusCode(), response)
+                is Response.Error<Boolean> -> call.respond(response.getHttpStatusCode(), response.copy(errorMessages = response.getErrorMessages(this)))
                 is Response.Success<Boolean> -> call.respond(HttpStatusCode.OK, response)
             }
         }

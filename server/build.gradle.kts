@@ -29,6 +29,7 @@ dependencies {
     implementation(libs.ktor.auth.jwt)
     implementation(libs.koin.annotations)
     implementation(libs.status.pages)
+    implementation(libs.i18n)
     implementation(libs.content.negotiation)
     implementation(libs.serialization.json)
     implementation(libs.sessions)

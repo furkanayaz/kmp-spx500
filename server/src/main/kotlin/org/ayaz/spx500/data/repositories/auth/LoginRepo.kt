@@ -1,6 +1,5 @@
 package org.ayaz.spx500.data.repositories.auth
 
-import io.ktor.http.HttpStatusCode
 import org.ayaz.spx500.data.dto_s.auth.LoginReqDTO
 import org.ayaz.spx500.data.dto_s.auth.LoginResDTO
 import org.ayaz.spx500.data.sessions.token.TokenSession
@@ -32,7 +31,7 @@ class LoginRepo(
                     val responseItem = loginResMapper.toModel(response.item).copy(token = token)
                     Response.Success(item = responseItem)
                 } else {
-                    Response.Error(code = 500, errorMessages = listOf(HttpStatusCode.InternalServerError.description))
+                    Response.Error(code = 500, errorMessages = listOf("unknown.error"))
                 }
             }
         }
