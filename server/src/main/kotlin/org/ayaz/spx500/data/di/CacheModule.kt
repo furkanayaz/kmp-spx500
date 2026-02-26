@@ -16,9 +16,9 @@ class CacheModule {
     @Single
     fun provideConnPoolConfig(): ConnectionPoolConfig {
         return ConnectionPoolConfig().apply {
-            maxTotal = 5
-            maxIdle = 2
-            minIdle = 1
+            maxTotal = 50
+            maxIdle = 10
+            minIdle = 5
 
             setMaxWait(Duration.ofSeconds(5))
             blockWhenExhausted = true

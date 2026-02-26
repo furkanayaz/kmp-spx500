@@ -19,7 +19,7 @@ fun Application.installAuthentication() {
         jwt {
             verifier { jwtUtil.verifyToken(jwtValues) }
             validate { jwtUtil.validateToken(it) }
-            challenge { _, _ -> call.respond(HttpStatusCode.Unauthorized, Response.Error(errorCode = 401, errorMessages = listOf("Token is not valid or has expired."))) }
+            challenge { _, _ -> call.respond(HttpStatusCode.Unauthorized, Response.Error<Any>(code = 401, errorMessages = listOf("Token is not valid or has expired."))) }
         }
     }
 }

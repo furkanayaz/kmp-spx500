@@ -5,6 +5,7 @@ import io.ktor.server.application.install
 import org.ayaz.spx500.data.di.CacheModule
 import org.ayaz.spx500.data.di.DBModule
 import org.ayaz.spx500.data.di.RepoModule
+import org.ayaz.spx500.data.di.UowModule
 import org.ayaz.spx500.data.di.SessionModule
 import org.ayaz.spx500.domain.di.MapperModule
 import org.ayaz.spx500.domain.di.UseCaseModule
@@ -20,6 +21,7 @@ fun Application.installKoin() {
         modules(
             CacheModule().module,
             DBModule().module,
+            UowModule().module,
             RepoModule().module,
             SessionModule().module,
             org.ayaz.spx500.data.di.UtilModule().module,

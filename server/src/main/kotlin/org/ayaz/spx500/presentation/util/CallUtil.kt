@@ -12,6 +12,9 @@ import org.ayaz.spx500.presentation.util.validations.Validator
 import org.koin.ktor.ext.inject
 
 object CallUtil {
+    private const val KEY_EMAIL = "email"
+    private const val KEY_PASSWORD = "password"
+
     fun ApplicationConfig.getSPXServer(): SPXServer {
         val host = propertyOrNull(SPXServer.HOST)?.getString() ?: SPXServer.DEFAULT_HOST
         val port = propertyOrNull(SPXServer.PORT)?.getString()?.toIntOrNull() ?: SPXServer.DEFAULT_PORT
@@ -28,8 +31,8 @@ object CallUtil {
     }
 
     fun RoutingCall.getClaim(): SPXClaim {
-        val email = this.principal<JWTPrincipal>()?.getClaim("email", String::class)
-        val password = this.principal<JWTPrincipal>()?.getClaim("password", String::class)
+        val email = this.principal<JWTPrincipal>()?.getClaim(KEY_EMAIL, String::class)
+        val password = this.principal<JWTPrincipal>()?.getClaim(KEY_PASSWORD, String::class)
 
         return SPXClaim(email, password)
     }

@@ -1,10 +1,11 @@
 package org.ayaz.spx500.data.sessions.token
 
 import redis.clients.jedis.RedisClient
+import redis.clients.jedis.params.SetParams
 
 interface ITokenSession {
-    fun addToken(uuid: String, token: String): String
-    fun removeToken(uuid: String)
+    fun addToken(uuid: String, token: String): Boolean
+    fun removeToken(uuid: String): Boolean
 }
 
 class TokenSession(
@@ -12,21 +13,18 @@ class TokenSession(
 ): ITokenSession {
     private companion object {
         const val BASE_KEY = "token"
+        const val EXPIRE_MILLIS = 1000 * 60 * 60 * 2L
     }
 
-    private fun getKey(uuid: String): String {
-        return "$BASE_KEY:$uuid"
+    private fun getKey(uuid: String): String = "$BASE_KEY:$uuid"
+
+    override fun addToken(uuid: String, token: String): Boolean {
+        val result = redisClient.set(getKey(uuid), token, SetParams().px(EXPIRE_MILLIS))
+        return result == "OK"
     }
 
-    override fun addToken(uuid: String, token: String): String {
-        return redisClient.use {
-            it.set(getKey(uuid), token)
-        }
-    }
-
-    override fun removeToken(uuid: String) {
-        redisClient.use {
-            it.del(getKey(uuid))
-        }
+    override fun removeToken(uuid: String): Boolean {
+        val result = redisClient.del(getKey(uuid))
+        return result == 1L
     }
 }

@@ -5,12 +5,12 @@ import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
 import io.ktor.server.auth.jwt.JWTCredential
 import io.ktor.server.auth.jwt.JWTPrincipal
-import org.ayaz.spx500.data.repositories.user.UserValidationRepo
+import org.ayaz.spx500.data.uow_s.user.UserValidationUow
 import java.util.Date
 import kotlin.time.ExperimentalTime
 
 class JWTUtil(
-    private val userValidationRepo: UserValidationRepo
+    private val userValidationRepo: UserValidationUow
 ) {
     private companion object {
         const val EMAIL = "email"
