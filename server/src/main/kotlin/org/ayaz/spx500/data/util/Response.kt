@@ -15,7 +15,7 @@ sealed interface Response<T: Any> {
     @Serializable
     data class Error<T: Any>(
         val isSuccess: Boolean = false,
-        val code: Int = 400,
+        val code: Int = HttpStatusCode.BadRequest.value,
         val errorMessages: List<String>,
         private val item: T? = null,
     ): Response<T> {

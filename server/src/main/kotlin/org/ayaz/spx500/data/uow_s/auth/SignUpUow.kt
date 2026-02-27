@@ -15,19 +15,14 @@ class SignUpUow(
     private val collection: MongoCollection<UserEntity>,
     private val passwordEncryption: PasswordEncryption
 ): ISignUpUow {
-    private companion object {
-        const val ERROR_MSG_USE_UNIQUE_EMAIL = "Please enter an unique email address."
-        const val ERROR_MSG_UNKNOWN_ERROR = "Occurred an error while creating your account."
-    }
-
     override operator fun invoke(req: SignUpReqDTO): Resource<Boolean> {
         val encryptedPassword = passwordEncryption.encode(req.password)
         val isUserRegistered = try {
             collection.insertOne(UserEntity(req.name, req.lastName, req.email, encryptedPassword.saltValue, encryptedPassword.encodedPassword))
         } catch (_: MongoWriteException) {
-            return Resource.Error(listOf(ERROR_MSG_USE_UNIQUE_EMAIL))
+            return Resource.Error(listOf("enter.unique.email"))
         }.wasAcknowledged()
 
-        return if (isUserRegistered) Resource.Success(true) else Resource.Error(listOf(ERROR_MSG_UNKNOWN_ERROR))
+        return if (isUserRegistered) Resource.Success(true) else Resource.Error(listOf("account.not.create"))
     }
 }
