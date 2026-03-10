@@ -1,40 +1,29 @@
 from io import StringIO
-
 import pandas as pd
 import requests
-import ssl
+from typing import Final
+import collections.abc
+
+# Fix for Python 3.10+ compatibility where abstract base classes were moved to collections.abc
+if not hasattr(collections, 'MutableMapping'):
+    collections.MutableMapping = collections.abc.MutableMapping
+if not hasattr(collections, 'Mapping'):
+    collections.Mapping = collections.abc.Mapping
+if not hasattr(collections, 'Sequence'):
+    collections.Sequence = collections.abc.Sequence
+
 from pymongo import MongoClient, UpdateOne
 
-# Eğer hala SSL hatası alıyorsan bu kalsın, almıyorsan silebilirsin
-ssl._create_default_https_context = ssl._create_unverified_context
+CONN_URL: Final = "mongodb://localhost:27017"
+DB_NAME: Final = "SPX500"
+COLLECTION_NAME: Final = "Companies"
 
-conn_str = "mongodb://localhost:27017"
-db_name = "SPX500"
-table_name = "Companies"
+DATA_URL: Final = "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies"
+HEADERS: Final = {
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+}
 
-def import_spx500():
-    url = "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies"
-
-    # Kendimizi tarayıcı olarak tanıtıyoruz
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-    }
-
-    try:
-        # Sayfayı requests ile çekiyoruz
-        response = requests.get(url, headers=headers)
-
-        # Eğer sayfa başarıyla çekildiyse (200 OK)
-        if response.status_code == 200:
-            # Pandas'a sayfa içeriğini (text) gönderiyoruz
-            response_text = StringIO(response.text)
-            df = pd.read_html(response_text)[0]
-
-            # Sütun isimlerini düzenleme kısmın buradan devam etsin...
-            print("Veri başarıyla çekildi, MongoDB'ye aktarılıyor...")
-
-            # --- Buradan aşağısı senin mevcut kolon düzenleme kodların ---
-            column_names = {
+new_column_names: Final = {
                 'Symbol': 'symbol',
                 'Security': 'security',
                 'GICS Sector': 'sector',
@@ -44,39 +33,7 @@ def import_spx500():
                 'CIK': 'cik',
                 'Founded': 'founded_date'
             }
-            df = df.rename(columns=column_names)
-            df = df[list(column_names.values())]
-            df = df.fillna("")
-
-            client = MongoClient(conn_str)
-            db = client[db_name]
-            collection = db[table_name]
-
-            collection.delete_many({})
-
-            #df.to_dict(orient="records") şunu ifade eder: Her satırı (row) bir sözlük (dict) yapar, tüm satırları da bir liste içinde döndürür.
-            #Yani MongoDB’ye insert_many() için en uygun formatlardan biridir.
-
-            # [
-            #     {"symbol": "AAPL", "security": "Apple Inc.", ...},
-            #     {"symbol": "MSFT", "security": "Microsoft", ...},
-            # ]
-
-            companies_dict = df.to_dict(orient='records')
-            collection.insert_many(companies_dict)
-
-        else:
-            print(f"Hata oluştu! Durum kodu: {response.status_code}")
-
-    except Exception as e:
-        print(f"Bağlantı sırasında bir hata oluştu: {e}")
-
-def update_spx500():
-    client = MongoClient(conn_str)
-    db = client[db_name]
-    collection = db[table_name]
-
-    spx500_updated = [
+spx500_updated: Final = [
         {'net_worth': '87.65B', 'symbol': 'MMM'}, {'net_worth': '9.19B', 'symbol': 'AOS'},
         {'net_worth': '203.3B', 'symbol': 'ABT'}, {'net_worth': '417.68B', 'symbol': 'ABBV'},
         {'net_worth': '126.72B', 'symbol': 'ACN'}, {'net_worth': '120.31B', 'symbol': 'ADBE'},
@@ -331,20 +288,72 @@ def update_spx500():
         {'net_worth': '84.2B', 'symbol': 'ZTS'}
     ]
 
+def get_collection():
+    client = MongoClient(CONN_URL)
+    db = client[DB_NAME]
+
+    return db[COLLECTION_NAME]
+
+
+def import_data_from_wikipedia():
+    try:
+        response = requests.get(DATA_URL, headers=HEADERS)
+
+        if response.status_code == 200:
+            document_file = StringIO(response.text)
+            df = pd.read_html(document_file)[0]
+            df.rename(columns=new_column_names)
+            df = df[list(new_column_names.values())]
+            df.fillna("")
+
+            data = df.to_records()
+
+            get_collection().delete_many({}).insert_many(data)
+            print("All of the records inserted.")
+        else:
+            print("Occurred an error while receiving data from wikipedia...")
+    except Exception as e:
+        print(f"Occurred an error: {e}")
+
+def import_data_from_json():
+        try:
+                df = pd.read_json("SPX500.Companies.json")
+                df.fillna("")
+
+                updates = []
+
+                for index, row in df.iterrows():
+                        updates.append(
+                                UpdateOne(
+                                        { "symbol": row["symbol"] },
+                                        { "$set": { "details": row["details"], "details_tr": row["details_tr"] } }
+                                )
+                        )
+
+                get_collection().bulk_write(updates)
+
+                print("Json update completed.")
+        except Exception as e:
+                print(f"Occurred an error: {e}")
+                pass
+
+
+def add_new_fields(field_name: str = "net_worth"):
     updates = []
 
     for company in spx500_updated:
         updates.append(
             UpdateOne(
                 { "symbol": company["symbol"] },
-                { "$set": { "net_worth": company["net_worth"] } },
+                { "$set": { field_name: company.get(field_name, "") } },
                 upsert=True
             )
         )
 
-    collection.bulk_write(updates)
+    get_collection().bulk_write(updates)
 
+    print("Fields added.")
 
 if __name__ == "__main__":
-    update_spx500()
-    #import_spx500()
+        import_data_from_json()
+        #add_new_fields(field_name="details_tr")
