@@ -354,6 +354,27 @@ def add_new_fields(field_name: str = "net_worth"):
 
     print("Fields added.")
 
+def rename_fields(**field_names):
+        try:
+                updates = []
+
+                for (oldName, newName) in field_names.items():
+                        updates.append(
+                                UpdateOne(
+                                        {},
+                                        {
+                                                "$set": { oldName: newName }
+                                        }
+                                )
+                        )
+
+                get_collection().bulk_write(updates)
+                print("Fields renamed.")
+        except Exception as e:
+                print(f"Occurred an error: {e}")
+
 if __name__ == "__main__":
-        import_data_from_json()
+        pass
+        #rename_fields(asdasda = "")
+        #import_data_from_json()
         #add_new_fields(field_name="details_tr")

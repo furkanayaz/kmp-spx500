@@ -7,6 +7,8 @@ import org.ayaz.spx500.data.repositories.auth.ILogoutRepo
 import org.ayaz.spx500.domain.use_cases.auth.LoginUseCase
 import org.ayaz.spx500.domain.use_cases.auth.SignUpUseCase
 import org.ayaz.spx500.domain.use_cases.auth.LogoutUseCase
+import org.ayaz.spx500.domain.use_cases.spx.GetSpxDataDetailUseCase
+import org.ayaz.spx500.domain.use_cases.spx.GetSpxDataUseCase
 import org.koin.core.annotation.Module
 import org.koin.core.annotation.Single
 
@@ -21,5 +23,11 @@ class UseCaseModule {
 
     @Single
     fun provideGetUuidUseCase(getUuidRepo: ILogoutRepo): LogoutUseCase = LogoutUseCase(getUuidRepo)
+
+    @Single
+    fun provideGetSpxDataUseCase(): GetSpxDataUseCase = GetSpxDataUseCase()
+
+    @Single
+    fun provideGetSpxDataDetailUseCase(): GetSpxDataDetailUseCase = GetSpxDataDetailUseCase()
 
 }

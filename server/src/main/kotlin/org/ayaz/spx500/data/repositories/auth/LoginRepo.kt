@@ -25,7 +25,7 @@ class LoginRepo(
         return when(val response = loginUow(req)) {
             is Resource.Error<UserModel> -> Response.Error(errorMessages = response.messages)
             is Resource.Success<UserModel> -> {
-                val token = jwtUtil.createToken(jwtValues, req.email, req.password)
+                val token = jwtUtil.createToken(jwtValues, req.email)
 
                 if (tokenSession.addToken(response.item.uuid, token)) {
                     val responseItem = loginResMapper.toModel(response.item).copy(token = token)

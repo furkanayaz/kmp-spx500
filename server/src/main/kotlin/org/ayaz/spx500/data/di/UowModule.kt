@@ -6,6 +6,10 @@ import org.ayaz.spx500.data.uow_s.auth.ILoginUow
 import org.ayaz.spx500.data.uow_s.auth.ISignUpUow
 import org.ayaz.spx500.data.uow_s.auth.LoginUow
 import org.ayaz.spx500.data.uow_s.auth.SignUpUow
+import org.ayaz.spx500.data.uow_s.spx.GetSpxDataDetailUow
+import org.ayaz.spx500.data.uow_s.spx.GetSpxDataUow
+import org.ayaz.spx500.data.uow_s.spx.IGetSpxDataDetailUow
+import org.ayaz.spx500.data.uow_s.spx.IGetSpxDataUow
 import org.ayaz.spx500.data.uow_s.user.IUserGetUuidUow
 import org.ayaz.spx500.data.uow_s.user.IUserValidationUow
 import org.ayaz.spx500.data.uow_s.user.UserGetUuidUow
@@ -19,6 +23,8 @@ import org.koin.core.annotation.Single
 
 @Module(includes = [DBModule::class, UtilModule::class, MapperModule::class])
 class UowModule {
+
+    /** AUTH UNIT OF WORKS */
 
     @Single([ILoginUow::class])
     fun provideLoginUow(
@@ -42,5 +48,13 @@ class UowModule {
     fun provideUserGetUuidUow(
         userCollection: MongoCollection<UserEntity>
     ) = UserGetUuidUow(userCollection)
+
+    /** SPX UNIT OF WORKS */
+
+    @Single([IGetSpxDataUow::class])
+    fun provideGetSpxDataUow(): IGetSpxDataUow = GetSpxDataUow()
+
+    @Single([IGetSpxDataDetailUow::class])
+    fun provideGetSpxDataDetailUow(): IGetSpxDataDetailUow = GetSpxDataDetailUow()
 
 }

@@ -14,18 +14,16 @@ class JWTUtil(
 ) {
     private companion object {
         const val EMAIL = "email"
-        const val PASSWORD = "password"
         const val EXPIRE_MILLIS = 1000 * 60 * 60 * 3 // 3 hours
     }
 
     @OptIn(ExperimentalTime::class)
-    fun createToken(values: JWTValues, email: String, password: String): String =
+    fun createToken(values: JWTValues, email: String): String =
         JWT.create()
             .withIssuer(values.issuer)
             .withAudience(values.audience)
             .withExpiresAt(Date(System.currentTimeMillis() + EXPIRE_MILLIS))
             .withClaim(EMAIL, email)
-            .withClaim(PASSWORD, password)
             .sign(Algorithm.HMAC256(values.secretKey))
 
     fun verifyToken(values: JWTValues): JWTVerifier =
@@ -36,8 +34,7 @@ class JWTUtil(
 
     fun validateToken(credential: JWTCredential): JWTPrincipal? {
         val email = credential.payload.getClaim(EMAIL).asString()
-        val password = credential.payload.getClaim(PASSWORD).asString()
-        if (email.isNullOrEmpty() && password.isNullOrEmpty() && userValidationRepo.validate(email).not()) return null
+        if (email.isNullOrEmpty() || userValidationRepo.validate(email).not()) return null
 
         return JWTPrincipal(credential.payload)
     }

@@ -6,6 +6,8 @@ import org.ayaz.spx500.data.repositories.auth.LoginRepo
 import org.ayaz.spx500.data.repositories.auth.SignUpRepo
 import org.ayaz.spx500.data.repositories.auth.ILogoutRepo
 import org.ayaz.spx500.data.repositories.auth.LogoutRepo
+import org.ayaz.spx500.data.repositories.spx.ISpxDataRepo
+import org.ayaz.spx500.data.repositories.spx.SpxDataRepo
 import org.ayaz.spx500.data.sessions.token.TokenSession
 import org.ayaz.spx500.data.uow_s.auth.ILoginUow
 import org.ayaz.spx500.data.uow_s.auth.ISignUpUow
@@ -18,6 +20,8 @@ import org.koin.core.annotation.Single
 
 @Module([UowModule::class, UtilModule::class, SessionModule::class, MapperModule::class])
 class RepoModule {
+
+    /** AUTH REPOSITORIES */
 
     @Single([ILoginRepo::class])
     fun bindLoginRepo(
@@ -37,5 +41,10 @@ class RepoModule {
         userGetUuidUow: IUserGetUuidUow,
         tokenSession: TokenSession
     ) = LogoutRepo(userGetUuidUow, tokenSession)
+
+    /** SPX REPOSITORIES */
+
+    @Single([ISpxDataRepo::class])
+    fun bindSpxDataRepo(): ISpxDataRepo = SpxDataRepo()
 
 }
