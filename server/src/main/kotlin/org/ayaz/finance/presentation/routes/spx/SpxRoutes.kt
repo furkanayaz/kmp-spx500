@@ -23,7 +23,11 @@ fun Route.spxRoutes() {
         }
 
         get(SpxEndpoints.GET_SPX_DATA_DETAIL) {
+            val symbol = call.parameters["symbol"]
+            if (symbol == null) call.sendResponse(Response.Error(errorMessages = listOf("spx.data.detail.symbol.required")))
+
             val getSpxDataDetailUseCase by inject<GetSpxDataDetailUseCase>()
+            call.sendResponse(getSpxDataDetailUseCase(symbol!!))
         }
     }
 }

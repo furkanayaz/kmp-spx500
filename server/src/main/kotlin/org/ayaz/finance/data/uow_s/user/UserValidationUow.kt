@@ -13,6 +13,11 @@ class UserValidationUow(
     private val userCollection: MongoCollection<UserEntity>,
 ): IUserValidationUow {
     override fun validate(email: String): Boolean {
-        return userCollection.findOne { Filters.eq(UserEntity::email.name, email) } != null
+        return try {
+            userCollection.findOne { Filters.eq(UserEntity::email.name, email) } != null
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return false
+        }
     }
 }

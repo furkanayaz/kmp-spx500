@@ -5,5 +5,5 @@ import org.ayaz.finance.data.repositories.spx.ISpxDataRepo
 class GetSpxDataDetailUseCase(
     private val repo: ISpxDataRepo
 ) {
-    operator fun invoke(id: String) = repo.getDetailData(id)
+    operator fun invoke(symbol: String) = repo.getDetailData(symbol)
 }
