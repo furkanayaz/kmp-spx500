@@ -1,4 +1,4 @@
-package org.ayaz.spx500
+package org.ayaz.finance
 
 import android.os.Build
 

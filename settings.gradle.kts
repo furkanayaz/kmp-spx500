@@ -1,5 +1,5 @@
 @file:Suppress("UnstableApiUsage")
-rootProject.name = "kmp-spx500"
+rootProject.name = "kmp-finance"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {

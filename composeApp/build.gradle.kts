@@ -84,11 +84,11 @@ kotlin {
 }
 
 android {
-    namespace = "org.ayaz.spx500"
+    namespace = "org.ayaz.finance"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "org.ayaz.spx500"
+        applicationId = "org.ayaz.finance"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
@@ -116,11 +116,11 @@ dependencies {
 
 compose.desktop {
     application {
-        mainClass = "org.ayaz.spx500.MainKt"
+        mainClass = "org.ayaz.finance.MainKt"
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "org.ayaz.spx500"
+            packageName = "org.ayaz.finance"
             packageVersion = "1.0.0"
         }
     }
