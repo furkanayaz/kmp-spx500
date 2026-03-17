@@ -8,6 +8,11 @@ data class SpxEntity(
     val symbol: String,
     val security: String,
     val sector: String,
+    val details: SpxDetailEntity?,
+    @BsonId @BsonProperty("_id") val id: ObjectId
+)
+
+data class SpxDetailEntity(
     @BsonProperty("sub_industry") val subIndustry: String,
     val headquarters: String,
     @BsonProperty("date_added") val addedDate: String,
@@ -15,6 +20,5 @@ data class SpxEntity(
     @BsonProperty("founded_date") val foundedDate: String,
     @BsonProperty("net_worth") val netWorth: String,
     val details: String,
-    @BsonProperty("details_tr") val detailsTr: String,
-    @BsonId @BsonProperty("_id") val id: ObjectId
+    @BsonProperty("details_tr") val detailsTr: String
 )

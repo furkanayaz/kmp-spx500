@@ -5,6 +5,8 @@ import com.mongodb.client.MongoDatabase
 import com.mongodb.client.model.IndexOptions
 import org.ayaz.finance.data.entities.spx.SpxEntity
 import org.ayaz.finance.data.entities.user.UserEntity
+import org.ayaz.finance.data.util.SpxCollection
+import org.ayaz.finance.data.util.UserCollection
 import org.koin.core.annotation.Module
 import org.koin.core.annotation.Single
 import org.litote.kmongo.KMongo
@@ -25,6 +27,7 @@ class DBModule {
     fun provideMongoDB(): MongoDatabase = KMongo.createClient(CONN_URL).getDatabase(DB_NAME)
 
     @Single
+    @UserCollection
     fun provideUserCollection(db: MongoDatabase): MongoCollection<UserEntity> {
         val userCollection = db.getCollection(USERS_COLLECTION, UserEntity::class.java)
         userCollection.createIndex(ascending(UserEntity::email), IndexOptions().unique(true))
@@ -33,10 +36,9 @@ class DBModule {
     }
 
     @Single
+    @SpxCollection
     fun provideSpxCollection(db: MongoDatabase): MongoCollection<SpxEntity> {
         val spxCollection = db.getCollection(SPX_COLLECTION, SpxEntity::class.java)
-        spxCollection.createIndex(ascending(SpxEntity::cik), IndexOptions().unique(true))
-
         return spxCollection
     }
 }

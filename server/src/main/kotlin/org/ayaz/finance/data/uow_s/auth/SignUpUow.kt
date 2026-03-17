@@ -4,6 +4,7 @@ import com.mongodb.MongoWriteException
 import com.mongodb.client.MongoCollection
 import org.ayaz.finance.data.entities.user.UserEntity
 import org.ayaz.finance.data.dto_s.auth.SignUpReqDTO
+import org.ayaz.finance.data.util.UserCollection
 import org.ayaz.finance.domain.util.encryption.PasswordEncryption
 import org.ayaz.finance.domain.util.Resource
 
@@ -12,7 +13,7 @@ fun interface ISignUpUow {
 }
 
 class SignUpUow(
-    private val collection: MongoCollection<UserEntity>,
+    @UserCollection private val collection: MongoCollection<UserEntity>,
     private val passwordEncryption: PasswordEncryption
 ): ISignUpUow {
     override operator fun invoke(req: SignUpReqDTO): Resource<Boolean> {

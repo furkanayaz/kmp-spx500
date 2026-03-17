@@ -5,7 +5,7 @@ import org.ayaz.finance.data.repositories.auth.ILoginRepo
 import org.ayaz.finance.data.util.jwt.JWTValues
 
 class LoginUseCase(
-    private val loginRepo: ILoginRepo
+    private val repo: ILoginRepo
 ) {
-    operator fun invoke(req: LoginReqDTO, jwtValues: JWTValues) = loginRepo(req, jwtValues)
+    operator fun invoke(req: LoginReqDTO, jwtValues: JWTValues) = repo(req, jwtValues)
 }
