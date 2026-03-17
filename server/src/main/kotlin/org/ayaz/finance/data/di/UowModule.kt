@@ -1,7 +1,7 @@
 package org.ayaz.finance.data.di
 
 import com.mongodb.client.MongoCollection
-import org.ayaz.finance.data.entities.spx.SpxEntity
+import org.ayaz.finance.data.entities.spx.SPXEntity
 import org.ayaz.finance.data.entities.user.UserEntity
 import org.ayaz.finance.data.uow_s.auth.ILoginUow
 import org.ayaz.finance.data.uow_s.auth.ISignUpUow
@@ -53,6 +53,6 @@ class UowModule {
     /** SPX UNIT OF WORKS */
 
     @Single([IGetSpxDataUow::class])
-    fun provideGetSpxDataUow(@SpxCollection spxCollection: MongoCollection<SpxEntity>) = GetSpxDataUow(spxCollection)
+    fun provideGetSpxDataUow(@SpxCollection collection: MongoCollection<SPXEntity>) = GetSpxDataUow(collection)
 
 }

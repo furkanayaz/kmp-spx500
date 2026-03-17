@@ -1,16 +1,22 @@
 package org.ayaz.finance.data.di
 
+import com.mongodb.MongoClientSettings
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoDatabase
 import com.mongodb.client.model.IndexOptions
-import org.ayaz.finance.data.entities.spx.SpxEntity
+import org.ayaz.finance.data.entities.spx.SPXEntity
+import org.ayaz.finance.data.entities.spx.codec.SPXCodec
+import org.ayaz.finance.data.entities.spx.codec.SPXDetailCodec
 import org.ayaz.finance.data.entities.user.UserEntity
 import org.ayaz.finance.data.util.SpxCollection
 import org.ayaz.finance.data.util.UserCollection
+import org.bson.codecs.configuration.CodecRegistries.fromCodecs
+import org.bson.codecs.configuration.CodecRegistries.fromRegistries
 import org.koin.core.annotation.Module
 import org.koin.core.annotation.Single
 import org.litote.kmongo.KMongo
 import org.litote.kmongo.ascending
+import org.litote.kmongo.withKMongo
 
 @Module
 class DBModule {
@@ -24,7 +30,7 @@ class DBModule {
     }
 
     @Single
-    fun provideMongoDB(): MongoDatabase = KMongo.createClient(CONN_URL).getDatabase(DB_NAME)
+    fun provideMongoDB(): MongoDatabase = KMongo.createClient(CONN_URL).getDatabase(DB_NAME).withKMongo()
 
     @Single
     @UserCollection
@@ -37,8 +43,15 @@ class DBModule {
 
     @Single
     @SpxCollection
-    fun provideSpxCollection(db: MongoDatabase): MongoCollection<SpxEntity> {
-        val spxCollection = db.getCollection(SPX_COLLECTION, SpxEntity::class.java)
+    fun provideSpxCollection(db: MongoDatabase): MongoCollection<SPXEntity> {
+        val spxDetailCodec = SPXDetailCodec()
+        val spxCodec = SPXCodec(spxDetailCodec)
+
+        val spxCollection = db.getCollection(SPX_COLLECTION, SPXEntity::class.java).withCodecRegistry(fromRegistries(
+            MongoClientSettings.getDefaultCodecRegistry(),
+            fromCodecs(spxCodec, spxDetailCodec)
+        ))
+
         return spxCollection
     }
 }

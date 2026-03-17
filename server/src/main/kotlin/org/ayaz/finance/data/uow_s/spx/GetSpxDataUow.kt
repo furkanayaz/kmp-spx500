@@ -2,28 +2,28 @@ package org.ayaz.finance.data.uow_s.spx
 
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.model.Aggregates
+import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Projections
-import org.ayaz.finance.data.entities.spx.SpxEntity
+import org.ayaz.finance.data.entities.spx.SPXDetailEntity
+import org.ayaz.finance.data.entities.spx.SPXEntity
 import org.ayaz.finance.data.util.SpxCollection
 import org.ayaz.finance.domain.util.Resource
-import org.bson.types.ObjectId
-import org.litote.kmongo.findOneById
 
 interface IGetSpxDataUow {
-    fun getData(): Resource<List<SpxEntity>>
-    fun getDetailData(id: String): Resource<SpxEntity>
+    fun getData(): Resource<List<SPXEntity>>
+    fun getDetailData(symbol: String): Resource<SPXDetailEntity>
 }
 
 class GetSpxDataUow(
-    @SpxCollection private val collection: MongoCollection<SpxEntity>
+    @SpxCollection private val collection: MongoCollection<SPXEntity>
 ) : IGetSpxDataUow {
-    override fun getData(): Resource<List<SpxEntity>> {
+    override fun getData(): Resource<List<SPXEntity>> {
         val aggregates = listOf(
             Aggregates.project(
                 Projections.include(
-                    SpxEntity::symbol.name,
-                    SpxEntity::security.name,
-                    SpxEntity::sector.name
+                    SPXEntity::symbol.name,
+                    SPXEntity::security.name,
+                    SPXEntity::sector.name
                 )
             )
         )
@@ -38,9 +38,16 @@ class GetSpxDataUow(
         return if (entityList.isNotEmpty()) Resource.Success(entityList) else Resource.Error(listOf("spx.data.empty"))
     }
 
-    override fun getDetailData(id: String): Resource<SpxEntity> {
+    override fun getDetailData(symbol: String): Resource<SPXDetailEntity> {
+        val aggregates = listOf(
+            Aggregates.match(Filters.eq(SPXEntity::symbol.name, symbol)),
+            Aggregates.project(
+                Projections.include(SPXEntity::details.name)
+            )
+        )
+
         val entity = try {
-            collection.findOneById(ObjectId(id))
+            collection.aggregate(aggregates).firstOrNull()?.details
         } catch (e: Exception) {
             e.printStackTrace()
             return Resource.Error(listOf(e.message.orEmpty()))

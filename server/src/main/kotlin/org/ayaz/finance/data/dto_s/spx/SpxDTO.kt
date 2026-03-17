@@ -4,19 +4,19 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class SpxResDTO(
-    val symbol: String,
-    val security: String,
-    val sector: String
+    val symbol: String?,
+    val security: String?,
+    val sector: String?
 )
 
 @Serializable
 data class SpxDetailResDTO(
-    val subIndustry: String,
-    val headquarters: String,
-    val addedDate: String,
-    val cik: Int,
-    val foundedDate: String,
-    val netWorth: String,
-    val details: String,
-    val detailsTr: String
+    val subIndustry: String?,
+    val headquarters: String?,
+    val addedDate: String?,
+    val cik: Int?,
+    val foundedDate: String?,
+    val netWorth: String?,
+    val details: String?,
+    val detailsTr: String?
 )

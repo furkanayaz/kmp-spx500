@@ -2,7 +2,8 @@ package org.ayaz.finance.data.repositories.spx
 
 import org.ayaz.finance.data.dto_s.spx.SpxDetailResDTO
 import org.ayaz.finance.data.dto_s.spx.SpxResDTO
-import org.ayaz.finance.data.entities.spx.SpxEntity
+import org.ayaz.finance.data.entities.spx.SPXDetailEntity
+import org.ayaz.finance.data.entities.spx.SPXEntity
 import org.ayaz.finance.data.uow_s.spx.IGetSpxDataUow
 import org.ayaz.finance.data.util.Response
 import org.ayaz.finance.domain.mapper.spx.SpxDetailResMapper
@@ -11,7 +12,7 @@ import org.ayaz.finance.domain.util.Resource
 
 interface ISpxDataRepo {
     fun getData(pageNo: Int, pageSize: Int): Response<List<SpxResDTO>>
-    fun getDetailData(id: String): Response<SpxDetailResDTO>
+    fun getDetailData(symbol: String): Response<SpxDetailResDTO>
 }
 
 class SpxDataRepo(
@@ -21,8 +22,8 @@ class SpxDataRepo(
 ): ISpxDataRepo {
     override fun getData(pageNo: Int, pageSize: Int): Response<List<SpxResDTO>> {
         return when(val response = getSpxDataUow.getData()) {
-            is Resource.Error<List<SpxEntity>> -> Response.Error(errorMessages = response.messages)
-            is Resource.Success<List<SpxEntity>> -> {
+            is Resource.Error<List<SPXEntity>> -> Response.Error(errorMessages = response.messages)
+            is Resource.Success<List<SPXEntity>> -> {
                 val newPageNo = if (pageNo < 0) 0 else pageNo
                 val newPageSize = if (pageSize < 0) 10 else pageSize
 
@@ -41,12 +42,11 @@ class SpxDataRepo(
         }
     }
 
-    override fun getDetailData(id: String): Response<SpxDetailResDTO> {
-        return when(val response = getSpxDataUow.getDetailData(id)) {
-            is Resource.Error<SpxEntity> -> Response.Error(errorMessages = response.messages)
-            is Resource.Success<SpxEntity> -> {
-                val details = response.item.details ?: return Response.Error(errorMessages = listOf("spx.data.detail.empty"))
-                Response.Success(item = spxDetailResMapper(details))
+    override fun getDetailData(symbol: String): Response<SpxDetailResDTO> {
+        return when(val response = getSpxDataUow.getDetailData(symbol)) {
+            is Resource.Error<SPXDetailEntity> -> Response.Error(errorMessages = response.messages)
+            is Resource.Success<SPXDetailEntity> -> {
+                Response.Success(item = spxDetailResMapper(response.item))
             }
         }
     }
