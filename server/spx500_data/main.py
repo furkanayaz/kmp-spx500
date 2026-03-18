@@ -19,7 +19,7 @@ CONN_URL: Final = "mongodb://localhost:27017"
 DB_NAME: Final = "Finance"
 SPX500_COLLECTION_NAME: Final = "SPX500"
 
-DATA_URL: Final = "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies"
+DATA_URL: Final = ""
 HEADERS: Final = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 }
@@ -297,7 +297,7 @@ def get_collection(collection_name: str = SPX500_COLLECTION_NAME):
     return db[collection_name]
 
 
-def import_data_from_wikipedia():
+def import_data():
     try:
         response = requests.get(DATA_URL, headers=HEADERS)
 
@@ -313,7 +313,7 @@ def import_data_from_wikipedia():
             get_collection().delete_many({}).insert_many(data)
             print("All of the records inserted.")
         else:
-            print("Occurred an error while receiving data from wikipedia...")
+            print("Occurred an error while receiving data from...")
     except Exception as e:
         print(f"Occurred an error: {e}")
 
