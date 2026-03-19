@@ -43,6 +43,16 @@ object CallUtil {
         return SPXClaim(email, password)
     }
 
+    suspend fun RoutingCall.getPagingInfo(): PagingInfo {
+        val pageNo = this.request.queryParameters["pageNo"]?.toIntOrNull()
+
+        if (pageNo == null) this.sendResponse(Response.Error(errorMessages = listOf("pageno.required")))
+
+        val pageSize = this.request.queryParameters["pageSize"]?.toIntOrNull() ?: 10
+
+        return PagingInfo(pageNo!!, pageSize)
+    }
+
     suspend inline fun <reified T> RoutingCall.require(): T {
         val validator: Validator by inject()
         val body = try {

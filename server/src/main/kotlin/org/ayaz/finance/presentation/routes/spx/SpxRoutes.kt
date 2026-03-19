@@ -6,23 +6,20 @@ import io.ktor.server.routing.get
 import org.ayaz.finance.data.util.Response
 import org.ayaz.finance.domain.use_cases.spx.GetSpxDataDetailUseCase
 import org.ayaz.finance.domain.use_cases.spx.GetSpxDataUseCase
+import org.ayaz.finance.presentation.util.CallUtil.getPagingInfo
 import org.ayaz.finance.presentation.util.CallUtil.sendResponse
 import org.koin.ktor.ext.inject
 
 fun Route.spxRoutes() {
     authenticate {
-        get(SpxEndpoints.GET_SPX_DATA) {
+        get(SpxEndpoints.GET_DATA) {
             val getSpxDataUseCase by inject<GetSpxDataUseCase>()
+            val (pageNo, pageSize) = call.getPagingInfo()
 
-            val pageNo = call.request.queryParameters["pageNo"]?.toInt()
-            val pageSize = call.request.queryParameters["pageSize"]?.toInt() ?: 10
-
-            if (pageNo == null) call.sendResponse(Response.Error(errorMessages = listOf("pageno.required")))
-
-            call.sendResponse(getSpxDataUseCase(pageNo!!, pageSize))
+            call.sendResponse(getSpxDataUseCase(pageNo, pageSize))
         }
 
-        get(SpxEndpoints.GET_SPX_DATA_DETAIL) {
+        get(SpxEndpoints.GET_DATA_DETAIL) {
             val symbol = call.parameters["symbol"]
             if (symbol == null) call.sendResponse(Response.Error(errorMessages = listOf("spx.data.detail.symbol.required")))
 
