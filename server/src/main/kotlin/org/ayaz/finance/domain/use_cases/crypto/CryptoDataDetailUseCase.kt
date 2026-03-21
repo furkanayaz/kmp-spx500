@@ -5,5 +5,5 @@ import org.ayaz.finance.data.repositories.crypto.ICryptoDataRepo
 class CryptoDataDetailUseCase(
     private val repo: ICryptoDataRepo
 ) {
-    suspend operator fun invoke(limit: Int, start: Int, convert: String) = repo.getDetailData(limit, start, convert)
+    suspend operator fun invoke(id: Int, convert: String) = repo.getDetailData(id, convert)
 }

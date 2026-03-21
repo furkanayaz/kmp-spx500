@@ -1,6 +1,7 @@
 package org.ayaz.finance.presentation.routes.crypto
 
 import io.ktor.server.auth.authenticate
+import io.ktor.server.plugins.BadRequestException
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import org.ayaz.finance.domain.use_cases.crypto.CryptoDataDetailUseCase
@@ -19,8 +20,11 @@ fun Route.cryptoRoutes() {
         }
 
         get(CryptoEndpoints.GET_DATA_DETAIL) {
-            val crpytoDataDetailUseCase by inject<CryptoDataDetailUseCase>()
+            val id = call.request.queryParameters["id"]?.toIntOrNull() ?: throw BadRequestException("")
+            val convert = call.request.queryParameters["currency"] ?: throw BadRequestException("")
 
+            val crpytoDataDetailUseCase by inject<CryptoDataDetailUseCase>()
+            call.sendResponse(crpytoDataDetailUseCase(id, convert))
         }
     }
 }

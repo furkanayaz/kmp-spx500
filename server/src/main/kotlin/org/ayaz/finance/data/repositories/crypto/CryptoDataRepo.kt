@@ -1,6 +1,6 @@
 package org.ayaz.finance.data.repositories.crypto
 
-import org.ayaz.finance.data.dto_s.crypto.CryptoListingsResDTO
+import org.ayaz.finance.data.dto_s.crypto.CryptoQuotesResDTO
 import org.ayaz.finance.data.dto_s.crypto.CryptoMapResDTO
 import org.ayaz.finance.data.uow_s.crypto.ICryptoDataUow
 import org.ayaz.finance.data.base.Response
@@ -8,7 +8,7 @@ import org.ayaz.finance.domain.base.Resource
 
 interface ICryptoDataRepo {
     suspend fun getData(limit: Int, start: Int): Response<List<CryptoMapResDTO>>
-    suspend fun getDetailData(limit: Int, start: Int, convert: String): Response<List<CryptoListingsResDTO>>
+    suspend fun getDetailData(id: Int, convert: String): Response<CryptoQuotesResDTO>
 }
 
 class CryptoDataRepo(
@@ -22,13 +22,12 @@ class CryptoDataRepo(
     }
 
     override suspend fun getDetailData(
-        limit: Int,
-        start: Int,
+        id: Int,
         convert: String
-    ): Response<List<CryptoListingsResDTO>> {
-        return when(val response = cryptoDataUow.getDetailData(limit, start, convert)) {
-            is Resource.Error<List<CryptoListingsResDTO>> -> Response.Error(code = response.code, errorMessages = response.messages)
-            is Resource.Success<List<CryptoListingsResDTO>> -> Response.Success(item = response.item)
+    ): Response<CryptoQuotesResDTO> {
+        return when(val response = cryptoDataUow.getDetailData(id, convert)) {
+            is Resource.Error<CryptoQuotesResDTO> -> Response.Error(code = response.code, errorMessages = response.messages)
+            is Resource.Success<CryptoQuotesResDTO> -> Response.Success(item = response.item)
         }
     }
 

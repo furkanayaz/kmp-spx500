@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.kotlinJvm)
     alias(libs.plugins.ktor)
     application
-    kotlin("plugin.serialization") version "2.2.0"
+    kotlin("plugin.serialization") version "2.3.0"
     id("com.google.devtools.ksp") version "2.2.0-2.0.2"
 }
 
@@ -39,6 +39,7 @@ dependencies {
     implementation(libs.ktor.server.openapi)
     implementation(libs.jedis)
     implementation(libs.bundles.ktor.server)
+    implementation(libs.bundles.ktor.client)
     implementation(libs.bundles.mongodb)
     implementation(libs.bundles.koin)
     ksp(libs.koin.ksp.compiler)

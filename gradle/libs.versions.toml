@@ -69,17 +69,26 @@ i18n = { module = "io.ktor:ktor-server-i18n", version.ref = "ktor" }
 content-negotiation = { module = "io.ktor:ktor-server-content-negotiation", version.ref = "ktor" }
 serialization-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 sessions = { module = "io.ktor:ktor-server-sessions", version.ref = "ktor" }
+ktor-clientCore = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-clientCio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
+ktor-clientLogging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
+ktor-clientContentNegotiaton = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-serverClient = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
-ktor-serverClientCio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
 ktor-serverNetty = { module = "io.ktor:ktor-server-netty-jvm", version.ref = "ktor" }
 ktor-serverTestHost = { module = "io.ktor:ktor-server-test-host-jvm", version.ref = "ktor" }
 
 [bundles]
+ktor-client = [
+    "ktor-clientCio",
+    "ktor-clientCore",
+    "ktor-clientLogging",
+    "ktor-clientContentNegotiaton"
+]
+
 ktor-server = [
     "ktor-serverNetty",
     "ktor-serverTestHost",
     "ktor-serverClient",
-    "ktor-serverClientCio",
     "call-logging",
     "ktor-server-core",
     "ktor-server-openapi",
