@@ -10,13 +10,13 @@ import org.ayaz.finance.presentation.plugins.installKoin
 import org.ayaz.finance.presentation.plugins.installLogging
 import org.ayaz.finance.presentation.plugins.installRouting
 import org.ayaz.finance.presentation.plugins.installStatusPages
-import org.ayaz.finance.presentation.plugins.installOpenAPI
+import org.ayaz.finance.presentation.plugins.installApiDoc
 
 fun main(args: Array<String>) = EngineMain.main(args)
 
 fun Application.module() {
     installStatusPages()
-    installOpenAPI()
+    installApiDoc()
     installKoin()
     installCors()
     installLogging()

@@ -1,11 +1,13 @@
 package org.ayaz.finance.presentation.util
 
+import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.i18n.i18n
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.auth.jwt.JWTPrincipal
 import io.ktor.server.auth.principal
 import io.ktor.server.config.ApplicationConfig
+import io.ktor.server.request.header
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.routing.RoutingCall
@@ -15,6 +17,7 @@ import org.ayaz.finance.data.auth.jwt.JWTValues
 import org.ayaz.finance.presentation.util.validations.Validator
 import org.jetbrains.annotations.PropertyKey
 import org.koin.ktor.ext.inject
+import java.util.Locale
 
 object CallUtil {
     private const val KEY_EMAIL = "email"
@@ -33,6 +36,12 @@ object CallUtil {
         val password = this.principal<JWTPrincipal>()?.getClaim(KEY_PASSWORD, String::class)
 
         return FinanceClaim(email, password)
+    }
+
+    fun RoutingCall.getLocale(): Locale {
+        val acceptLanguage = request.header(HttpHeaders.AcceptLanguage)
+        if (acceptLanguage == null) Locale.ENGLISH
+        return Locale.of(acceptLanguage)
     }
 
     suspend fun RoutingCall.getPagingInfo(): PagingInfo {

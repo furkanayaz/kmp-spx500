@@ -19,7 +19,6 @@ jedis = "7.3.0"
 junit = "4.13.2"
 kmongo = "5.5.1"
 kotestAssertionsCore = "6.1.2"
-mongo = "4.10.2"
 kotlin = "2.3.0"
 kotlinx-coroutines = "1.10.2"
 kotlinxDatetime = "0.7.1"
@@ -37,7 +36,6 @@ jedis = { module = "redis.clients:jedis", version.ref = "jedis" }
 kmongo = { module = "org.litote.kmongo:kmongo", version.ref = "kmongo" }
 kmongo-coroutine = { module = "org.litote.kmongo:kmongo-coroutine", version.ref = "kmongo" }
 kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotestAssertionsCore" }
-mongo-bson = { module = "org.mongodb:bson", version.ref = "mongo" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-testJunit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 ktor-server-core = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
