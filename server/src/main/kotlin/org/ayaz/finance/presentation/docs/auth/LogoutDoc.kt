@@ -11,7 +11,7 @@ import org.ayaz.finance.presentation.docs.DocTags.AUTHENTICATION_TAG
 fun Route.setLogoutDoc() {
     describe {
         tag(AUTHENTICATION_TAG)
-        summary = "Log out to expire your token..."
+        summary = "This endpoint is used for log out to expire your token..."
         description = "Logs the user out of their account."
 
         responses {

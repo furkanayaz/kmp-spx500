@@ -14,8 +14,8 @@ import org.ayaz.finance.presentation.docs.DocTags.AUTHENTICATION_TAG
 fun Route.setSignUpDoc() {
     describe {
         tag(AUTHENTICATION_TAG)
-        summary = "User sign up to kmp-finance..."
-        description = "You can sign up to kmp-finance to get an account by using this endpoint."
+        summary = "This endpoint is used for user sign up to kmp-exchange..."
+        description = "You can sign up to kmp-exchange to get an account by using this endpoint."
 
         requestBody {
             required = true

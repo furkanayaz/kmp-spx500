@@ -5,6 +5,8 @@ import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import org.ayaz.finance.domain.use_cases.crypto.CryptoDataDetailUseCase
 import org.ayaz.finance.domain.use_cases.crypto.CryptoDataUseCase
+import org.ayaz.finance.presentation.docs.crypto.setGetDataDetailDoc
+import org.ayaz.finance.presentation.docs.crypto.setGetDataDoc
 import org.ayaz.finance.presentation.util.CallUtil.sendErrorMessage
 import org.ayaz.finance.presentation.util.CallUtil.getPagingInfo
 import org.ayaz.finance.presentation.util.CallUtil.sendResponse
@@ -17,7 +19,7 @@ fun Route.cryptoRoutes() {
             val crpytoDataUseCase by inject<CryptoDataUseCase>()
 
             call.sendResponse(crpytoDataUseCase(pageSize, pageNo))
-        }
+        }.setGetDataDoc()
 
         get(CryptoEndpoints.GET_DATA_DETAIL) {
             val id = call.request.queryParameters["id"]?.toIntOrNull()
@@ -28,6 +30,6 @@ fun Route.cryptoRoutes() {
 
             val crpytoDataDetailUseCase by inject<CryptoDataDetailUseCase>()
             call.sendResponse(crpytoDataDetailUseCase(id!!, convert!!))
-        }
+        }.setGetDataDetailDoc()
     }
 }

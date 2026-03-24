@@ -15,8 +15,8 @@ import org.ayaz.finance.presentation.docs.DocTags.AUTHENTICATION_TAG
 fun Route.setLogicDoc() {
     describe {
         tag(AUTHENTICATION_TAG)
-        summary = "User log in to kmp-finance..."
-        description = "You can log in to kmp-finance to get a token by using this endpoint."
+        summary = "This endpoint is used for user login to kmp-exchange..."
+        description = "You can log in to kmp-exchange to get a token by using this endpoint."
 
         requestBody {
             required = true
@@ -46,12 +46,12 @@ fun Route.setLogicDoc() {
 
         responses {
             HttpStatusCode.OK {
-                description = "User can receive a token from kmp-finance..."
+                description = "User can receive a token from kmp-exchange..."
                 schema = jsonSchema<LoginResDTO>()
             }
 
             HttpStatusCode.BadRequest {
-                description = "The user cannot obtain a token from kmp-finance due to an invalid email address or password."
+                description = "The user cannot obtain a token from kmp-exchange due to an invalid email address or password."
                 schema = jsonSchema<LoginResDTO>()
             }
         }
