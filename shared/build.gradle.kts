@@ -50,7 +50,7 @@ kotlin {
 }
 
 android {
-    namespace = "org.ayaz.finance.shared"
+    namespace = "org.ayaz.exchange.shared"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
