@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 import org.ayaz.exchange.data.util.serializers.CryptoDecimal
 
 @Serializable
-data class CryptoListResDTO<T: Any>(
+data class CryptoListResDTO<T : Any>(
     val data: List<T>,
     val status: CryptoResStatusDTO
 ) {
@@ -13,7 +13,7 @@ data class CryptoListResDTO<T: Any>(
 }
 
 @Serializable
-data class CryptoFilterResDTO<T: Any>(
+data class CryptoFilterResDTO<T : Any>(
     val data: Map<String, T>,
     val status: CryptoResStatusDTO
 ) {
@@ -33,7 +33,8 @@ data class CryptoMapResDTO(
     val id: Int? = null,
     val name: String? = null,
     val symbol: String? = null,
-    val slug: String? = null
+    val slug: String? = null,
+    var logoLink: String? = null
 )
 
 @Serializable

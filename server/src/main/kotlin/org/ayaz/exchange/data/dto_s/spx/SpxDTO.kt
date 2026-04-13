@@ -6,7 +6,8 @@ import kotlinx.serialization.Serializable
 data class SpxResDTO(
     val symbol: String?,
     val security: String?,
-    val sector: String?
+    val sector: String?,
+    var logoLink: String?
 )
 
 @Serializable

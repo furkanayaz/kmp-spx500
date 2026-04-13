@@ -23,7 +23,7 @@ fun Route.setGetDataDoc() {
 
             query("pageSize") {
                 description = "Not required but default is 10 crypto list per page."
-                required = true
+                required = false
             }
         }
 

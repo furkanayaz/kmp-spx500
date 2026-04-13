@@ -6,6 +6,7 @@ import org.ayaz.exchange.data.entities.spx.SPXDetailEntity
 import org.ayaz.exchange.data.entities.spx.SPXEntity
 import org.ayaz.exchange.data.uow_s.spx.ISpxDataUow
 import org.ayaz.exchange.data.base.Response
+import org.ayaz.exchange.data.repositories.logo.IExchangeLogoRepo
 import org.ayaz.exchange.domain.mapper.spx.SpxDetailResMapper
 import org.ayaz.exchange.domain.mapper.spx.SpxResMapper
 import org.ayaz.exchange.domain.base.Resource
@@ -18,7 +19,8 @@ interface ISpxDataRepo {
 class SpxDataRepo(
     private val getSpxDataUow: ISpxDataUow,
     private val spxResMapper: SpxResMapper,
-    private val spxDetailResMapper: SpxDetailResMapper
+    private val spxDetailResMapper: SpxDetailResMapper,
+    private val logoRepo: IExchangeLogoRepo
 ): ISpxDataRepo {
     override fun getData(pageNo: Int, pageSize: Int): Response<List<SpxResDTO>> {
         return when(val response = getSpxDataUow.getData()) {
@@ -35,7 +37,7 @@ class SpxDataRepo(
                 val tempToIndex = (newPageNo + 1) * newPageSize
                 val toIndex = if (tempToIndex > spxLastIndex) spxLastIndex else tempToIndex
 
-                val spxList = spxResMapper(response.item).subList(fromIndex, toIndex)
+                val spxList = spxResMapper(response.item).subList(fromIndex, toIndex).onEach { it.logoLink = logoRepo.getSpxLogo(it.symbol) }
 
                 Response.Success(item = spxList)
             }

@@ -23,7 +23,7 @@ fun Route.setGetDataDoc() {
 
             query("pageSize") {
                 description = "Not required but default is 10 company list per page."
-                required = true
+                required = false
             }
         }
 
